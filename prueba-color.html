@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        .viewer{
+            width:100%;
+            height:100vh;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <model-viewer class="viewer" id="color" camera-controls touch-action="pan-y" interaction-prompt="none" src="Стол.glb" ar ar-modes="webxr scene-viewer quick-look" alt="A 3D model of an astronaut">
+        <div class="controls" ,="" id="color-controls">
+          <button data-color="1,0,0,1">Red</button>
+          <button data-color="0,1,0,1">Green</button>
+          <button data-color="0,0,1,1">Blue</button>
+          <button data-color="0,1,1,1">Blue</button>
+        </div>
+      </model-viewer>
+
+
+      <script>
+      const modelViewerColor = document.querySelector("model-viewer#color");
+      
+      document.querySelector('#color-controls').addEventListener('click', (event) => {
+        const colorString = event.target.dataset.color;
+      
+        if (!colorString) {
+          return;
+        }
+      
+        const color = colorString.split(',')
+            .map(numberString => parseFloat(numberString));
+      
+        console.log('Changing color to: ', color);
+        const [material] = modelViewerColor.model.materials;
+        material.pbrMetallicRoughness.setBaseColorFactor(color);
+      });
+      </script>
+</body>
+</html>
+
+<model-viewer src="Upload model..." ar ar-modes="webxr scene-viewer quick-look" camera-controls poster="poster.webp" shadow-intensity="1">
+  <div class="progress-bar hide" slot="progress-bar">
+      <div class="update-bar"></div>
+  </div>
+  <button slot="ar-button" id="ar-button">
+      Vista RA
+  </button>
+  <div id="ar-prompt">
+      <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+  </div>
+</model-viewer>

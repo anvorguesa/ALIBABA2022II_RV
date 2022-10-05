@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.modal{
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.modal{
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.5);
+	transition: all 500ms ease;
+	opacity: 0;
+	visibility: hidden;
+}
+#btn-modal:checked ~ .modal{
+	opacity: 1;
+	visibility: visible;
+} 
+.contenedor{
+	width: 40%;
+	height: 90%;
+	margin: auto;
+	background: #fff;
+	box-shadow: 1px 7px 25px rgba(0,0,0,0.6);
+	transition: all 500ms ease;
+	position: relative;
+    justify-content: center;
+	align-items: center;
+	transform: translateY(-30%);
+}
+#btn-modal:checked ~ .modal .contenedor{
+	transform: translateY(0%);
+} 
+.contenedor header{
+	padding: 10px;
+	background: #7499ff;
+	color: #fff;
+}
+.contenedor label{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	color: #fff;
+	font-size: 15px;
+	cursor: pointer;
+}
+.contenido{
+	width: 100%;
+	padding: 10px; 
+}
+.contenido h3{
+	margin-bottom: 10px;
+}
+.contenido img{
+	justify-content: center;
+	align-items: center;
+}
+#btn-modal{
+	display: none;
+}
+.lbl-modal{
+	background: #fff;
+	padding: 10px 15px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+@media only screen and (min-width:320px) and (max-width:768px){
+	.contenedor{
+		width: 95%;
+	}
+}
+    
+    
+        .viewer{
+            width:100%;
+            height:90vh;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+  
+
+    
+    
+    <model-viewer class="viewer" id="color" camera-controls touch-action="pan-y" interaction-prompt="none" src="mesa.glb" ar ar-modes="webxr scene-viewer quick-look" >
+        <div class="controls" ,="" id="color-controls">
+          <button data-color="1,0,0,1">Red</button>
+          <button data-color="0,1,0,1">Green</button>
+          <button data-color="0,0,1,1">Blue</button>
+          <button data-color="0,1,1,1">SkyBlue</button>
+        </div>
+      </model-viewer>
+      
+        <input type="checkbox" id="btn-modal">
+                      <label for="btn-modal" class="lbl-modal" >Código QRa</label>
+                      <div class="modal">
+                        <div class="contenedor">
+                          <header>Mesa</header>
+                          <label for="btn-modal">X</label>
+                          <div class="contenido">
+                            <h5 class="card-title"> </h5>
+                            <img src="qr1.png" alt="" style="width:65%; height:70%; align-items: center; margin-left:15%">
+                            
+                          </div>
+                        </div>
+                      </div>
+          
+
+      <script>
+      const modelViewerColor = document.querySelector("model-viewer#color");
+      
+      document.querySelector('#color-controls').addEventListener('click', (event) => {
+        const colorString = event.target.dataset.color;
+      
+        if (!colorString) {
+          return;
+        }
+      
+        const color = colorString.split(',')
+            .map(numberString => parseFloat(numberString));
+      
+        console.log('Changing color to: ', color);
+        const [material] = modelViewerColor.model.materials;
+        material.pbrMetallicRoughness.setBaseColorFactor(color);
+      });
+      </script>
+</body>
+</html>
